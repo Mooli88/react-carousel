@@ -1,0 +1,19 @@
+{
+  "slides": [
+    {
+      "id": 1,
+      "bg": "../../assets/1.jpg",
+      "context": "Cheesecake tart soufflé chocolate wafer sweet roll dessert. Tootsie roll pie oat cake. Icing gingerbread jelly-o.Fruitcake biscuit cupcake sweet pie toffee tootsie roll brownie soufflé. Sweet roll oat cake pastry. Apple pie gingerbread jelly beans cake sweet wafer cake pie. Chocolate bar dessert jelly beans."
+    },
+    {
+      "id": 2,
+      "bg": "../assets/2.jpg",
+      "context": "Donut cheesecake marshmallow pastry lollipop carrot cake caramels halvah oat cake. Dragée muffin apple pie icing pastry toffee. Biscuit candy jelly danish pastry cheesecake bear claw pudding."
+    },
+    {
+      "id": 3,
+      "bg": "./assets/3.jpg",
+      "context": "Cupcake gingerbread halvah biscuit pastry bonbon pudding candy canes. Pudding marshmallow macaroon tootsie roll. Cotton candy lemon drops bonbon donut gingerbread candy jelly-o jelly. Candy lollipop carrot cake macaroon cotton candy cake gingerbread carrot cake chocolate."
+    }
+  ]
+}
