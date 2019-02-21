@@ -4,3 +4,13 @@ body {
   overflow: hidden;
   border: 2px solid;
 }
+
+.absolute {
+  position: absolute;
+
+  &.absolute-bottom--stretch {
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

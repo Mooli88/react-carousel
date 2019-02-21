@@ -3,7 +3,7 @@ import dataService from '../../Data.service';
 import Slide from './components/slide/Slide';
 import './Slides.scss';
 import Controllers from '../controllers/Controllers';
-
+import Pointers from '../pointers/Pointers';
 class Slides extends Component {
   slideTransition = {};
   playSlide = null;
@@ -13,7 +13,7 @@ class Slides extends Component {
 
     this.state = {
       slides: [],
-      currentSlide: 0,
+      currentSlideIndex: 0,
       isPlaying: false
     };
   }
@@ -21,7 +21,8 @@ class Slides extends Component {
   getSlide(step = 1) {
     const slidesAmount = this.state.slides.length;
     return (
-      (this.state.currentSlide + step + slidesAmount) % slidesAmount
+      (this.state.currentSlideIndex + step + slidesAmount) %
+      slidesAmount
     );
   }
 
@@ -81,6 +82,13 @@ class Slides extends Component {
     this.playSlide = playSlide;
   }
 
+  onSelectPointer = i => {
+    // this.setState({
+    //   currentSlide: i
+    // });
+    // this.moveSlide();
+  };
+
   //hooks
   componentDidMount() {
     dataService.getSlides().then(slides => {
@@ -95,7 +103,10 @@ class Slides extends Component {
   }
 
   render() {
-    const currentSlide = this.state.slides[this.state.currentSlide];
+    console.log(this.state.slides.length);
+    const currentSlide = this.state.slides[
+      this.state.currentSlideIndex
+    ];
     const { isPlaying } = this.state;
     const { togglePlay, nextSlide, previousSlide } = this;
 
@@ -116,7 +127,15 @@ class Slides extends Component {
             );
           })}
         </div>
-        <div className="slides-controllers">
+        <div className="slides-controllers absolute absolute-bottom--stretch">
+          <Pointers
+            pointers={{
+              amount: this.state.slides.length,
+              onSelect: this.onSelectPointer,
+              currentPointer: this.state.currentSlideIndex
+            }}
+          />
+
           <Controllers
             controller={{
               isPlaying,
