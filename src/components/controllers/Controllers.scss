@@ -9,3 +9,18 @@
     color: #fff;
   }
 }
+
+.playing {
+  .svg-inline--fa {
+    animation: playing .8s linear infinite alternate !important;
+  }
+}
+
+@keyframes playing {
+  from {
+    color: #00bfff ;
+  }
+  to {
+    color: #00698b ;
+  }
+}
