@@ -1,0 +1,17 @@
+.pointer {
+  margin: 0 0.4em;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 8px solid;
+  border-color: #f9f9f9;
+
+  &:hover {
+    box-shadow: 0 0 1px 5px #616161;
+  }
+
+  &.selected {
+    border-color: #b9b9b9;
+  }
+}

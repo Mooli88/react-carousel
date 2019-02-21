@@ -3,32 +3,30 @@ import dataService from '../../Data.service';
 import Slide from './components/slide/Slide';
 import './Slides.scss';
 import Controllers from '../controllers/Controllers';
-
+import Pointers from '../pointers/Pointers';
 class Slides extends Component {
   slideTransition = {};
   playSlide = null;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       slides: [],
-      currentSlide: 0,
-      isPlaying: false
+      currentSlideIndex: 0,
+      isPlaying: false,
     };
   }
 
-  getSlide(step = 1) {
+  getSlideIndex(step = 1) {
     const slidesAmount = this.state.slides.length;
-    return (
-      (this.state.currentSlide + step + slidesAmount) % slidesAmount
-    );
+    return (this.state.currentSlideIndex + step + slidesAmount) % slidesAmount;
   }
 
   togglePlay = play => {
     if (this.state.isPlaying !== play) {
       this.setState({
-        isPlaying: play
+        isPlaying: play,
       });
     }
 
@@ -41,24 +39,25 @@ class Slides extends Component {
     this.moveSlide();
 
     this.setState({
-      currentSlide: this.getSlide()
+      isPlaying: false,
+      currentSlideIndex: this.getSlideIndex(),
     });
   };
 
   previousSlide = () => {
-    this.moveSlide(this.getSlide(-1));
+    this.moveSlide(this.getSlideIndex(-1));
 
     this.setState({
-      currentSlide: this.getSlide(-1)
+      isPlaying: false,
+      currentSlideIndex: this.getSlideIndex(-1),
     });
   };
 
-  moveSlide(currentSlide = this.getSlide()) {
+  moveSlide(currentSlideIndex = this.getSlideIndex()) {
     const slideEl = document.querySelector('.slide');
 
     this.slideTransition = {
-      transform: `translateX(-${slideEl.clientWidth *
-        currentSlide}px)`
+      transform: `translateX(-${slideEl.clientWidth * currentSlideIndex}px)`,
     };
   }
 
@@ -68,11 +67,11 @@ class Slides extends Component {
     }
 
     const playSlide = setTimeout(() => {
-      const currentSlide = this.getSlide();
+      const currentSlideIndex = this.getSlideIndex();
 
-      this.moveSlide(currentSlide);
+      this.moveSlide(currentSlideIndex);
       this.setState({
-        currentSlide
+        currentSlideIndex,
       });
 
       clearTimeout(playSlide);
@@ -81,11 +80,18 @@ class Slides extends Component {
     this.playSlide = playSlide;
   }
 
+  onSelectPointer = i => {
+    this.setState({
+      currentSlideIndex: i,
+    });
+    this.moveSlide(i);
+  };
+
   //hooks
   componentDidMount() {
     dataService.getSlides().then(slides => {
       this.setState({
-        slides
+        slides,
       });
     });
   }
@@ -95,34 +101,36 @@ class Slides extends Component {
   }
 
   render() {
-    const currentSlide = this.state.slides[this.state.currentSlide];
+    const currentSlide = this.state.slides[this.state.currentSlideIndex];
     const { isPlaying } = this.state;
     const { togglePlay, nextSlide, previousSlide } = this;
 
     return (
       <div className="slides">
-        <div
-          className="slides-content columns"
-          style={this.slideTransition}
-        >
+        <div className="slides-content columns" style={this.slideTransition}>
           {this.state.slides.map(slide => {
             return (
               <div key={slide.id} className="slide column is-full">
-                <Slide
-                  content={slide}
-                  currentSlide={currentSlide.id}
-                />
+                <Slide content={slide} currentSlide={currentSlide.id} />
               </div>
             );
           })}
         </div>
-        <div className="slides-controllers">
+        <div className="slides-controllers absolute absolute-bottom--stretch">
+          <Pointers
+            pointers={{
+              amount: this.state.slides.length,
+              onSelect: this.onSelectPointer,
+              currentPointer: this.state.currentSlideIndex,
+            }}
+          />
+
           <Controllers
             controller={{
               isPlaying,
               togglePlay,
               nextSlide,
-              previousSlide
+              previousSlide,
             }}
           />
         </div>
