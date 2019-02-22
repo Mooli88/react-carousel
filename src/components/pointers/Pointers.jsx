@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Pointers.scss';
 
 export default function Pointers(props) {
@@ -12,8 +13,7 @@ export default function Pointers(props) {
   return (
     <div>
       {pointers.map((pointer, i) => {
-        const cls =
-          currentPointer === i ? `pointer selected` : 'pointer';
+        const cls = currentPointer === i ? `pointer selected` : 'pointer';
         return (
           <span
             key={'pointer' + i}
@@ -25,3 +25,10 @@ export default function Pointers(props) {
     </div>
   );
 }
+
+Pointers.propTypes = {
+  pointers: PropTypes.shape({
+    currentPointer: PropTypes.number,
+    OnSelect: PropTypes.func,
+  }).isRequired,
+};

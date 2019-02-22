@@ -80,6 +80,12 @@ class Slides extends Component {
     this.playSlide = playSlide;
   }
 
+  async getSlides() {
+    this.setState({
+      slides: await dataService.getSlides(),
+    });
+  }
+
   onSelectPointer = i => {
     this.setState({
       currentSlideIndex: i,
@@ -89,11 +95,7 @@ class Slides extends Component {
 
   //hooks
   componentDidMount() {
-    dataService.getSlides().then(slides => {
-      this.setState({
-        slides,
-      });
-    });
+    this.getSlides();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -111,7 +113,7 @@ class Slides extends Component {
           {this.state.slides.map(slide => {
             return (
               <div key={slide.id} className="slide column is-full">
-                <Slide content={slide} currentSlide={currentSlide.id} />
+                <Slide content={slide} />
               </div>
             );
           })}
@@ -129,8 +131,8 @@ class Slides extends Component {
             controller={{
               isPlaying,
               togglePlay,
-              nextSlide,
-              previousSlide,
+              next: nextSlide,
+              previous: previousSlide,
             }}
           />
         </div>

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Controllers.scss';
 
 export default function Controllers(props) {
-  const { isPlaying, togglePlay, nextSlide, previousSlide } = props.controller;
+  const { isPlaying, togglePlay, next, previous } = props.controller;
 
   return (
     <div className="controllers">
@@ -16,12 +17,21 @@ export default function Controllers(props) {
         <i className="fas fa-pause" />
       </span>
 
-      <span className="icon control" onClick={previousSlide}>
+      <span className="icon control" onClick={previous}>
         <i className="fas fa-arrow-left" />
       </span>
-      <span className="icon control" onClick={nextSlide}>
+      <span className="icon control" onClick={next}>
         <i className="fas fa-arrow-right" />
       </span>
     </div>
   );
 }
+
+Controllers.propTypes = {
+  controller: PropTypes.shape({
+    isPlaying: PropTypes.bool,
+    togglePlay: PropTypes.func,
+    next: PropTypes.func,
+    previous: PropTypes.func,
+  }).isRequired,
+};

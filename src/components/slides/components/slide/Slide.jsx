@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Slide.scss';
 
 export default function Slide(props) {
@@ -10,11 +11,15 @@ export default function Slide(props) {
   // }
 
   return (
-    <div
-      className="slide"
-      style={{ backgroundImage: 'url(' + bg + ')' }}
-    >
+    <div className="slide" style={{ backgroundImage: 'url(' + bg + ')' }}>
       <p className="context">{context}</p>
     </div>
   );
 }
+
+Slide.propTypes = {
+  content: PropTypes.shape({
+    context: PropTypes.string,
+    bg: PropTypes.string,
+  }).isRequired,
+};
