@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Pointers.scss';
 
 export default function Pointers(props) {
-  const { currentPointer, onSelect } = props.pointers;
+  const { currentPointer, setCurrentPointer } = props.pointers;
   const pointers = Array(props.pointers.amount)
     .fill(null)
     .map((v, i) => i + 1);
@@ -22,7 +22,7 @@ export default function Pointers(props) {
             key={'pointer_' + i}
             role={'pointer ' + pointer}
             className={cls}
-            onClick={_ => onSelect(i)}
+            onClick={_ => setCurrentPointer(i)}
           />
         );
       })}
@@ -33,6 +33,6 @@ export default function Pointers(props) {
 Pointers.propTypes = {
   pointers: PropTypes.shape({
     currentPointer: PropTypes.number,
-    OnSelect: PropTypes.func
+    setCurrentPointer: PropTypes.func
   }).isRequired
 };

@@ -40,9 +40,7 @@ describe('"amount" prop', () => {
   });
 });
 
-fdescribe('"currentPointer" prop', () => {
-  afterEach(cleanup);
-
+describe('"currentPointer" prop', () => {
   function filterPointers(getAllByRole, pointerAt, result) {
     const pointers = getAllByRole('pointer ', { exact: false });
     const currentPointer = pointers[pointerAt]
@@ -55,6 +53,7 @@ fdescribe('"currentPointer" prop', () => {
       ).length
     ).toBe(result);
   }
+  afterEach(cleanup);
 
   it('Should have only one current selected pointer', () => {
     const currentPointer = 1;
@@ -73,5 +72,46 @@ fdescribe('"currentPointer" prop', () => {
     });
 
     filterPointers(getAllByRole, currentPointer, 0);
+  });
+});
+
+describe('"setCurrentPointer" prop method', () => {
+  afterEach(cleanup);
+
+  it('Should set the "currentPointer" for the selected pointer', () => {
+    const mockSetCurrentPointer = jest.fn(pointerIndex => {
+      rerender(
+        <Pointers
+          pointers={{ amount: 3, currentPointer: pointerIndex }}
+        />
+      );
+    });
+
+    const initialSelectedPointer = 0;
+    const nextSelectedPointer = 2;
+    const { getAllByRole, rerender } = setup({
+      amount: 3,
+      currentPointer: initialSelectedPointer,
+      setCurrentPointer: mockSetCurrentPointer
+    });
+
+    const pointers = getAllByRole('pointer ', { exact: false });
+
+    let selectedClassName =
+      pointers[initialSelectedPointer].className;
+
+    expect(pointers[nextSelectedPointer].className).not.toEqual(
+      selectedClassName
+    );
+
+    fireEvent.click(pointers[nextSelectedPointer]);
+
+    expect(selectedClassName).not.toEqual(
+      pointers[initialSelectedPointer].className
+    );
+
+    expect(pointers[nextSelectedPointer].className).toEqual(
+      selectedClassName
+    );
   });
 });

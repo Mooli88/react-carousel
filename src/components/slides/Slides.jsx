@@ -131,7 +131,7 @@ class Slides extends Component {
           <Pointers
             pointers={{
               amount: this.state.slides.length,
-              onSelect: this.onSelectPointer,
+              setCurrentPointer: this.onSelectPointer,
               currentPointer: this.state.currentSlideIndex
             }}
           />
