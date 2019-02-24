@@ -4,19 +4,23 @@ import './Pointers.scss';
 
 export default function Pointers(props) {
   const { currentPointer, onSelect } = props.pointers;
-  const pointers = Array(props.pointers.amount).fill(null);
+  const pointers = Array(props.pointers.amount)
+    .fill(null)
+    .map((v, i) => i + 1);
 
-  if (!pointers.length) {
+  if (props.pointers.amount < 2) {
     return null;
   }
 
   return (
-    <div>
+    <div data-testid="cmp-pointers">
       {pointers.map((pointer, i) => {
-        const cls = currentPointer === i ? `pointer selected` : 'pointer';
+        const cls =
+          currentPointer === i ? `pointer selected` : 'pointer';
         return (
           <span
-            key={'pointer' + i}
+            key={'pointer_' + i}
+            role={'pointer ' + pointer}
             className={cls}
             onClick={_ => onSelect(i)}
           />
@@ -29,6 +33,6 @@ export default function Pointers(props) {
 Pointers.propTypes = {
   pointers: PropTypes.shape({
     currentPointer: PropTypes.number,
-    OnSelect: PropTypes.func,
-  }).isRequired,
+    OnSelect: PropTypes.func
+  }).isRequired
 };

@@ -14,19 +14,22 @@ class Slides extends Component {
     this.state = {
       slides: [],
       currentSlideIndex: 0,
-      isPlaying: false,
+      isPlaying: false
     };
   }
 
   getSlideIndex(step = 1) {
     const slidesAmount = this.state.slides.length;
-    return (this.state.currentSlideIndex + step + slidesAmount) % slidesAmount;
+    return (
+      (this.state.currentSlideIndex + step + slidesAmount) %
+      slidesAmount
+    );
   }
 
   togglePlay = play => {
     if (this.state.isPlaying !== play) {
       this.setState({
-        isPlaying: play,
+        isPlaying: play
       });
     }
 
@@ -40,7 +43,7 @@ class Slides extends Component {
 
     this.setState({
       isPlaying: false,
-      currentSlideIndex: this.getSlideIndex(),
+      currentSlideIndex: this.getSlideIndex()
     });
   };
 
@@ -49,7 +52,7 @@ class Slides extends Component {
 
     this.setState({
       isPlaying: false,
-      currentSlideIndex: this.getSlideIndex(-1),
+      currentSlideIndex: this.getSlideIndex(-1)
     });
   };
 
@@ -57,7 +60,8 @@ class Slides extends Component {
     const slideEl = document.querySelector('.slide');
 
     this.slideTransition = {
-      transform: `translateX(-${slideEl.clientWidth * currentSlideIndex}px)`,
+      transform: `translateX(-${slideEl.clientWidth *
+        currentSlideIndex}px)`
     };
   }
 
@@ -71,7 +75,7 @@ class Slides extends Component {
 
       this.moveSlide(currentSlideIndex);
       this.setState({
-        currentSlideIndex,
+        currentSlideIndex
       });
 
       clearTimeout(playSlide);
@@ -82,13 +86,13 @@ class Slides extends Component {
 
   async getSlides() {
     this.setState({
-      slides: await dataService.getSlides(),
+      slides: await dataService.getSlides()
     });
   }
 
   onSelectPointer = i => {
     this.setState({
-      currentSlideIndex: i,
+      currentSlideIndex: i
     });
     this.moveSlide(i);
   };
@@ -103,13 +107,18 @@ class Slides extends Component {
   }
 
   render() {
-    const currentSlide = this.state.slides[this.state.currentSlideIndex];
+    const currentSlide = this.state.slides[
+      this.state.currentSlideIndex
+    ];
     const { isPlaying } = this.state;
     const { togglePlay, nextSlide, previousSlide } = this;
 
     return (
       <div className="slides">
-        <div className="slides-content columns" style={this.slideTransition}>
+        <div
+          className="slides-content columns"
+          style={this.slideTransition}
+        >
           {this.state.slides.map(slide => {
             return (
               <div key={slide.id} className="slide column is-full">
@@ -123,7 +132,7 @@ class Slides extends Component {
             pointers={{
               amount: this.state.slides.length,
               onSelect: this.onSelectPointer,
-              currentPointer: this.state.currentSlideIndex,
+              currentPointer: this.state.currentSlideIndex
             }}
           />
 
@@ -132,7 +141,7 @@ class Slides extends Component {
               isPlaying,
               togglePlay,
               next: nextSlide,
-              previous: previousSlide,
+              previous: previousSlide
             }}
           />
         </div>
